@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(const DirectoryApp());
@@ -51,17 +50,13 @@ const List<Student> students = [
     email: 'maria.delacruz@campus.edu',
   ),
 ];
- 
+
 // Stateless because it displays only the supplied icon and text.
 class InfoRow extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const InfoRow({
-    super.key,
-    required this.icon,
-    required this.text,
-  });
+  const InfoRow({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +64,7 @@ class InfoRow extends StatelessWidget {
       children: [
         Icon(icon, size: 18, color: Colors.blue),
         const SizedBox(width: 6),
-        Expanded(
-          child: Text(text),
-        ),
+        Expanded(child: Text(text)),
       ],
     );
   }
@@ -81,10 +74,7 @@ class InfoRow extends StatelessWidget {
 class SectionHeader extends StatelessWidget {
   final String title;
 
-  const SectionHeader({
-    super.key,
-    required this.title,
-  });
+  const SectionHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -110,18 +100,13 @@ class SectionHeader extends StatelessWidget {
 class StudentCard extends StatelessWidget {
   final Student student;
 
-  const StudentCard({
-    super.key,
-    required this.student,
-  });
+  const StudentCard({super.key, required this.student});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       // Customization 2: Rounded corners for each student card.
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       margin: const EdgeInsets.symmetric(vertical: 6),
       child: Padding(
         // Customization 3: Extra padding inside each card.
@@ -160,16 +145,56 @@ class StudentCard extends StatelessWidget {
                     text: 'Year Level: ${student.yearLevel}',
                   ),
                   const SizedBox(height: 4),
-                  InfoRow(
-                    icon: Icons.email,
-                    text: student.email,
-                  ),
+                  InfoRow(icon: Icons.email, text: student.email),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+// Stateless because the directory displays fixed student data.
+class DirectoryScreen extends StatelessWidget {
+  const DirectoryScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Campus Directory'),
+        // Customization 5: Blue app bar with white text.
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const SectionHeader(title: 'Students'),
+          const SizedBox(height: 8),
+          ...students.map((student) => StudentCard(student: student)),
+        ],
+      ),
+    );
+  }
+}
+
+// Stateless because the app configuration remains fixed.
+class DirectoryApp extends StatelessWidget {
+  const DirectoryApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        // Customization 6: Use a blue Material 3 theme.
+        colorSchemeSeed: Colors.blue,
+        useMaterial3: true,
+      ),
+      home: const DirectoryScreen(),
     );
   }
 }
